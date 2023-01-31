@@ -1,0 +1,5 @@
+*.RDS
+.idea
+gsea/
+GSEA_4.3.2.zip
+GSEA_4.3.2/
