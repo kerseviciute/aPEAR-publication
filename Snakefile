@@ -9,7 +9,7 @@ rule gsea:
     rank = 'output/temp/rank.rnk',
     soft = ancient('GSEA_4.3.2/gsea-cli.sh')
   output:
-    gsea = 'output/enrichment/gsea'
+    gsea = directory('output/enrichment/gsea')
   log:
     log = 'logs/gsea.log'
   conda: 'env/pathExplore.yml'
