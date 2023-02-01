@@ -1,0 +1,19 @@
+[ {
+  "name" : "Node filter",
+  "transformers" : [ {
+    "id" : "org.cytoscape.CompositeFilter",
+    "parameters" : {
+      "type" : "ALL"
+    },
+    "transformers" : [ {
+      "id" : "org.cytoscape.TopologyFilter",
+      "parameters" : {
+        "predicate" : "LESS_THAN",
+        "distance" : 5,
+        "threshold" : 15,
+        "type" : "ALL"
+      },
+      "transformers" : [ ]
+    } ]
+  } ]
+} ]

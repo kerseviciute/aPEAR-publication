@@ -1,7 +1,7 @@
 
 rule all:
   input:
-    'output/enrichment/gsea'
+    cytoscape = 'output/figures/cytoscape.png'
 
 rule gsea:
   input:
@@ -24,7 +24,22 @@ rule rank:
 rule gmt:
   output:
     gmt = temp('output/temp/human.gmt')
+  params:
+    url = 'http://download.baderlab.org/EM_Genesets/January_01_2023/Human/entrezgene/Human_GOBP_AllPathways_no_GO_iea_January_01_2023_entrezgene.gmt'
   shell:
     """
-      wget http://download.baderlab.org/EM_Genesets/January_01_2023/Human/entrezgene/Human_GOBP_AllPathways_no_GO_iea_January_01_2023_entrezgene.gmt -O {output.gmt}
+      wget {params.url} -O {output.gmt}
     """
+
+#
+# IMPORTANT: Cytoscape must be running to execute this rule!
+#
+rule cytoscape:
+  input:
+    gsea = 'output/enrichment/gsea',
+    gmt = 'output/temp/human.gmt',
+    filter = ancient('cytoscape/filter.json')
+  output:
+    image = 'output/figures/cytoscape.png'
+  conda: 'env/pathExplore.yml'
+  script: 'R/cytoscape.R'
