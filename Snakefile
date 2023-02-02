@@ -1,6 +1,7 @@
 
 rule all:
   input:
+    emapplot = 'output/figures/emapplot.png',
     pathExplore = 'output/figures/pathExplore.png'
     # cytoscape = 'output/figures/cytoscape.png',
     # clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
@@ -59,3 +60,11 @@ rule pathExplore:
     pathExplore = 'output/figures/pathExplore.png'
   conda: 'env/pathExplore.yml'
   script: 'R/pathExplore.R'
+
+rule emapplot:
+  input:
+    clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
+  output:
+    emapplot = 'output/figures/emapplot.png'
+  conda: 'env/pathExplore.yml'
+  script: 'R/emapplot.R'
