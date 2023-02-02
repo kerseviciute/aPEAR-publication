@@ -1,7 +1,9 @@
 
 rule all:
   input:
-    cytoscape = 'output/figures/cytoscape.png'
+    pathExplore = 'output/figures/pathExplore.png'
+    # cytoscape = 'output/figures/cytoscape.png',
+    # clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
 
 rule gsea:
   input:
@@ -43,3 +45,17 @@ rule cytoscape:
     image = 'output/figures/cytoscape.png'
   conda: 'env/pathExplore.yml'
   script: 'R/cytoscape.R'
+
+rule clusterProfiler:
+  output:
+    clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
+  conda: 'env/pathExplore.yml'
+  script: 'R/clusterProfiler.R'
+
+rule pathExplore:
+  input:
+    clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
+  output:
+    pathExplore = 'output/figures/pathExplore.png'
+  conda: 'env/pathExplore.yml'
+  script: 'R/pathExplore.R'
