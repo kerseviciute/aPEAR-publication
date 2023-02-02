@@ -8,11 +8,10 @@ clusterProfiler <- readRDS(snakemake@input$clusterProfiler)
 
 set.seed(42)
 plot <- enrichmentNetwork(clusterProfiler@result,
-                          fontSize = 3,
+                          fontSize = 2.5,
                           outerCutoff = 0.25,
                           minClusterSize = 5,
                           drawEllipses = TRUE,
-                          repelLabels = TRUE) +
-  theme(legend.position = 'bottom')
+                          repelLabels = TRUE)
 
-ggsave(plot, filename = snakemake@output$pathExplore, device = 'png', height = 6.5, width = 7)
+ggsave(plot, filename = snakemake@output$pathExplore, device = 'png', height = 6, width = 7)

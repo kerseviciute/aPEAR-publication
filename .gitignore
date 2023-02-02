@@ -3,3 +3,4 @@
 .snakemake
 output
 logs
+.DS_Store
