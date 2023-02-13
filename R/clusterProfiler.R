@@ -8,8 +8,7 @@ data(geneList)
 
 enrich <- gseGO(geneList,
                 OrgDb = org.Hs.eg.db,
-                ont = 'BP',
-                seed = TRUE,
-                pvalueCutoff = 0.01)
+                ont = 'CC',
+                seed = TRUE)
 
 saveRDS(enrich, snakemake@output$clusterProfiler)
