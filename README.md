@@ -38,3 +38,5 @@ the `data` directory and are shortly described below:
 10. `dataset10.RDS`: GSEA of EPIC data of persons with Alzheimer's disease (comparing AD and Controls). Performed using the GSEA software.
 11. `dataset11.RDS`: GSEA of EPIC data of persons with mild Alzheimer's disease (comparing MAD and Controls). Performed using clusterProfiler (GO).
 12. `dataset12.RDS`: GSEA of EPIC data of persons with mild Alzheimer's disease (comparing MAD and Controls). Performed using the GSEA software.
+13. `dataset13.RDS`: GSEA of WGBS data of persons with severe Covid (comparing Covid and Controls). Performed using clusterProfiler (GO).
+14. `dataset14.RDS`: GSEA of WGBS data of persons with severe Covid (comparing Covid and Controls). Performed using the GSEA software.
