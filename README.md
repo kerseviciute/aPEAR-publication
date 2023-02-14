@@ -30,3 +30,7 @@ the `data` directory and are shortly described below:
 2. `dataset2.RDS`: GSEA of RNAseq data of persons with Alzheimer's disease (comparing AD and Controls). Performed using the GSEA software.
 3. `dataset3.RDS`: GSEA of RNAseq data of nasal swab from persons with Covid (comparing Covid and Controls). Performed using clusterProfiler (GO).
 4. `dataset4.RDS`: GSEA of RNAseq data of nasal swab from persons with Covid (comparing Covid and Controls). Performed using the GSEA software.
+5. `dataset5.RDS`: GSEA of EPIC data of persons with ovarian cancer (comparing Ovarian and Controls). Performed using clusterProfiler (GO).
+6. `dataset6.RDS`: GSEA of EPIC data of persons with ovarian cancer (comparing Ovarian and Controls). Performed using the GSEA software.
+7. `dataset7.RDS`: GSEA of EPIC data of persons who  gave birth to newborns with FGR (comparing FGR and Controls). Performed using clusterProfiler (GO).
+8. `dataset8.RDS`: GSEA of EPIC data of persons who  gave birth to newborns with FGR (comparing FGR and Controls). Performed using the GSEA software.
