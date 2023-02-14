@@ -20,7 +20,7 @@ snakemake --cores 1 --use-conda --conda-frontend mamba
 
 ## Quality and performance assessment
 
-We have obtained `N` datasets containing various gene set enrichment results from previous analyses
+We have obtained 20 datasets containing various gene set enrichment results from previous analyses
 we have performed (code not provided). In each dataset, we used 1000 most significant pathways (note
 that this does not mean the pathways are in fact significant). For each gene set enrichment analysis,
 we used either clusterProfiler or the GSEA software. The results  and the datasets can be found in
