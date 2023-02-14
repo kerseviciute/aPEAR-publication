@@ -13,6 +13,6 @@ plot <- emapplot(terms,
                                    line = 0.25),
                  color = 'NES',
                  node_label = 'group',
-                 showCategory = nrow(clusterProfiler@result) / 2)
+                 showCategory = nrow(clusterProfiler@result))
 
 ggsave(plot, filename = snakemake@output$emapplot, height = 9, width = 9)
