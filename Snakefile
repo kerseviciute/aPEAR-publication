@@ -68,3 +68,12 @@ rule emapplot:
     emapplot = 'output/figures/emapplot.png'
   conda: 'env/pathExplore.yml'
   script: 'R/emapplot.R'
+
+rule evaluateClustering:
+  input:
+    datasets = expand('data/dataset{id}.RDS', id = range(1, 21))
+  output:
+    eval = 'output/evaluation/clustering_{size}.RDS'
+  threads: 5
+  conda: 'env/pathExplore.yml'
+  script: 'R/evaluateClustering.R'
