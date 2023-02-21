@@ -5,9 +5,12 @@ library(data.table)
 library(tidyverse)
 library(foreach)
 library(clusterCrit)
-library(pathExplore)
 library(doParallel)
 library(glue)
+library(devtools)
+
+devtools::install_github('https://github.com/ievaKer/pathExplore')
+library(pathExplore)
 
 # Will process different datasets separately
 doParallel::registerDoParallel(cores = snakemake@input$threads)
