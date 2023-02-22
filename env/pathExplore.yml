@@ -28,5 +28,6 @@ dependencies:
   - bioconductor-rcy3=2.18.0
   - r-gsa=1.03.2
   - r-devtools=2.4.5
+  - r-ggpubr=0.6.0
 
 # Use pacman::p_load(Spectrum) to load Spectrum package manually (could not find in anaconda)
