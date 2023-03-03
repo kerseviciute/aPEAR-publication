@@ -6,9 +6,7 @@ rule all:
     pathExploreGSEA = 'output/figures/pathExploreGSEA.png',
     cytoscape = 'output/figures/cytoscape.png',
     csv = 'output/evaluation/clustering_100.csv',
-    clusterQuality = 'output/evaluation/clusterQuality_100.png',
-    similarityQuality = 'output/evaluation/similarityQuality_100.png',
-    simAndClust = 'output/evaluation/simAndClust_100.png'
+    clusterQuality = 'output/evaluation/clustering_100.png'
 
 rule gsea:
   input:
@@ -96,8 +94,6 @@ rule generateEvalGraphs:
     eval = 'output/evaluation/clustering_{size}.RDS'
   output:
     csv = 'output/evaluation/clustering_{size}.csv',
-    clusterQuality = 'output/evaluation/clusterQuality_{size}.png',
-    similarityQuality = 'output/evaluation/similarityQuality_{size}.png',
-    simAndClust = 'output/evaluation/simAndClust_{size}.png'
+    png = 'output/evaluation/clustering_{size}.png'
   conda: 'env/pathExplore.yml'
-  script: 'R/evaluate.R'
+  script: 'R/generateEvalGraphs.R'
