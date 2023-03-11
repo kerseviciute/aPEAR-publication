@@ -1,11 +1,17 @@
 saveRDS(snakemake, '.evaluate.R.RDS')
-snakemake <- readRDS('.evaluate.R.RDS')
+# snakemake <- readRDS('.evaluate.R.RDS')
 
 library(tidyverse)
 library(data.table)
 library(ggpubr)
 
-readRDS(snakemake@input$eval) %>% fwrite(snakemake@output$csv)
+readRDS(snakemake@input$eval) %>%
+  .[ , Size := NULL ] %>%
+  .[ , Dunn := round(Dunn, digits = 5) ] %>%
+  .[ , Silhouette := round(Silhouette, digits = 5) ] %>%
+  .[ , DaviesBouldin := round(DaviesBouldin, digits = 5) ] %>%
+  .[ , Dataset := gsub(pattern = 'data/dataset([0-9]+).RDS', replacement = '\\1', x = Dataset) ] %>%
+  fwrite(snakemake@output$csv)
 
 cluster <- readRDS(snakemake@input$eval) %>%
   .[ , Size := NULL ]
@@ -65,4 +71,4 @@ ggarrange(
   ggarrange(p1, p2, nrow = 1, ncol = 2, labels = letters[ 1:2 ], font.label = list(size = 12)),
   ggarrange(p3, nrow = 1, ncol = 1, labels = letters[ 3 ], font.label = list(size = 12)),
   nrow = 2, ncol = 1, heights = c(0.6, 0.4)
-) %>% ggsave(filename = snakemake@output$png,  device = 'png', height = 10, width = 7)
+) %>% ggsave(filename = snakemake@output$png, device = 'png', height = 10, width = 7)
