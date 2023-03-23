@@ -1,4 +1,4 @@
-name: pathExplore
+name: aPEAR
 channels:
   - conda-forge
   - bioconda

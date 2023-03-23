@@ -18,7 +18,7 @@ rankFile <- snakemake@input$rank
 
 log <- snakemake@log$log
 
-outputDir <- file.path(tempdir(), 'pathExplore')
+outputDir <- file.path(tempdir(), 'aPEAR')
 dir.create(outputDir)
 
 cmd <- glue(

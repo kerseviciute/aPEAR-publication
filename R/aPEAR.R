@@ -1,9 +1,9 @@
-saveRDS(snakemake, '.pathExplore.R.RDS')
-# snakemake <- readRDS('.pathExplore.R.RDS')
+saveRDS(snakemake, '.aPEAR.R.RDS')
+# snakemake <- readRDS('.aPEAR.R.RDS')
 
 library(ggplot2)
-devtools::install_github('https://github.com/ievaKer/pathExplore')
-library(pathExplore)
+devtools::install_github('https://github.com/ievaKer/aPEAR')
+library(aPEAR)
 
 clusterProfiler <- readRDS(snakemake@input$clusterProfiler)
 
@@ -14,4 +14,4 @@ plot <- enrichmentNetwork(clusterProfiler@result,
                           drawEllipses = TRUE,
                           repelLabels = TRUE)
 
-ggsave(plot, filename = snakemake@output$pathExplore, device = 'png', height = 6, width = 7)
+ggsave(plot, filename = snakemake@output$aPEAR, device = 'png', height = 6, width = 7)

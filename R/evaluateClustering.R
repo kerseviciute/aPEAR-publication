@@ -9,8 +9,8 @@ library(doParallel)
 library(glue)
 library(devtools)
 
-devtools::install_github('https://github.com/ievaKer/pathExplore')
-library(pathExplore)
+devtools::install_github('https://github.com/ievaKer/aPEAR')
+library(aPEAR)
 
 # Will process different datasets separately
 doParallel::registerDoParallel(cores = snakemake@input$threads)

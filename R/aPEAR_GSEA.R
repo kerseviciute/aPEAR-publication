@@ -1,13 +1,13 @@
-saveRDS(snakemake, '.pathExploreGSEA.R.RDS')
-# snakemake <- readRDS('.pathExploreGSEA.R.RDS')
+saveRDS(snakemake, '.aPEARGSEA.R.RDS')
+# snakemake <- readRDS('.aPEARGSEA.R.RDS')
 
 library(GSA)
 library(data.table)
 library(foreach)
 library(tidyverse)
 library(devtools)
-devtools::install_github('https://github.com/ievaKer/pathExplore')
-library(pathExplore)
+devtools::install_github('https://github.com/ievaKer/aPEAR')
+library(aPEAR)
 
 #
 # Parse GMT file
@@ -50,7 +50,7 @@ data <- enrichment %>%
   as.data.frame
 
 set.seed(5348953)
-plot <- pathExplore::enrichmentNetwork(data,
+plot <- aPEAR::enrichmentNetwork(data,
                                        simMethod = 'jaccard',
                                        clustMethod = 'markov',
                                        colorBy = 'NES',
@@ -62,4 +62,4 @@ plot <- pathExplore::enrichmentNetwork(data,
                                        drawEllipses = FALSE) +
   xlim(-20, 20)
 
-ggsave(plot, filename = snakemake@output$pathExplore, device = 'png', height = 6, width = 7)
+ggsave(plot, filename = snakemake@output$aPEAR, device = 'png', height = 6, width = 7)

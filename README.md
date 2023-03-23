@@ -1,6 +1,6 @@
-# pathExplore
+# aPEAR
 
-This repository contains code used to perform analysis for the pathExplore paper.
+This repository contains code used to perform analysis for the aPEAR paper.
 
 ## Requirements
 

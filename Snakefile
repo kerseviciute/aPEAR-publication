@@ -2,8 +2,8 @@
 rule all:
   input:
     emapplot = 'output/figures/emapplot.png',
-    pathExplore = 'output/figures/pathExplore.png',
-    pathExploreGSEA = 'output/figures/pathExploreGSEA.png',
+    aPEAR = 'output/figures/aPEAR.png',
+    aPEARGSEA = 'output/figures/aPEARGSEA.png',
     cytoscape = 'output/figures/cytoscape.png',
     csv = 'output/evaluation/clustering_100.csv',
     clusterQuality = 'output/evaluation/clustering_100.png'
@@ -17,13 +17,13 @@ rule gsea:
     gsea = directory('output/enrichment/gsea')
   log:
     log = 'logs/gsea.log'
-  conda: 'env/pathExplore.yml'
+  conda: 'env/aPEAR.yml'
   script: 'R/gsea.R'
 
 rule rank:
   output:
     rank = 'output/enrichment/rank.rnk'
-  conda: 'env/pathExplore.yml'
+  conda: 'env/aPEAR.yml'
   script: 'R/prepRank.R'
 
 rule gmt:
@@ -46,38 +46,38 @@ rule cytoscape:
     filter = ancient('cytoscape/filter.json')
   output:
     image = 'output/figures/cytoscape.png'
-  conda: 'env/pathExplore.yml'
+  conda: 'env/aPEAR.yml'
   script: 'R/cytoscape.R'
 
 rule clusterProfiler:
   output:
     clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
-  conda: 'env/pathExplore.yml'
+  conda: 'env/aPEAR.yml'
   script: 'R/clusterProfiler.R'
 
-rule pathExplore:
+rule aPEAR:
   input:
     clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
   output:
-    pathExplore = 'output/figures/pathExplore.png'
-  conda: 'env/pathExplore.yml'
-  script: 'R/pathExplore.R'
+    aPEAR = 'output/figures/aPEAR.png'
+  conda: 'env/aPEAR.yml'
+  script: 'R/aPEAR.R'
 
-rule pathExploreGSEA:
+rule aPEAR_GSEA:
   input:
     gsea = 'output/enrichment/gsea',
     gmt = 'output/enrichment/gmt/human.gmt'
   output:
-    pathExplore = 'output/figures/pathExploreGSEA.png'
-  conda: 'env/pathExplore.yml'
-  script: 'R/pathExploreGSEA.R'
+    aPEAR = 'output/figures/aPEARGSEA.png'
+  conda: 'env/aPEAR.yml'
+  script: 'R/aPEAR_GSEA.R'
 
 rule emapplot:
   input:
     clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
   output:
     emapplot = 'output/figures/emapplot.png'
-  conda: 'env/pathExplore.yml'
+  conda: 'env/aPEAR.yml'
   script: 'R/emapplot.R'
 
 rule evaluateClustering:
@@ -86,7 +86,7 @@ rule evaluateClustering:
   output:
     eval = 'output/evaluation/clustering_{size}.RDS'
   threads: 5
-  conda: 'env/pathExplore.yml'
+  conda: 'env/aPEAR.yml'
   script: 'R/evaluateClustering.R'
 
 rule generateEvalGraphs:
@@ -95,5 +95,5 @@ rule generateEvalGraphs:
   output:
     csv = 'output/evaluation/clustering_{size}.csv',
     png = 'output/evaluation/clustering_{size}.png'
-  conda: 'env/pathExplore.yml'
+  conda: 'env/aPEAR.yml'
   script: 'R/generateEvalGraphs.R'
