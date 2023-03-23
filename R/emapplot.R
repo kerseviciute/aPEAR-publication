@@ -1,5 +1,5 @@
 saveRDS(snakemake, '.emapplot.R.RDS')
-snakemake <- readRDS('.emapplot.R.RDS')
+# snakemake <- readRDS('.emapplot.R.RDS')
 
 library(enrichplot)
 library(ggplot2)

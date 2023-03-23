@@ -2,14 +2,16 @@
 rule all:
   input:
     emapplot = 'output/figures/emapplot.png',
-    pathExplore = 'output/figures/pathExplore.png'
-    # cytoscape = 'output/figures/cytoscape.png',
-    # clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
+    pathExplore = 'output/figures/pathExplore.png',
+    pathExploreGSEA = 'output/figures/pathExploreGSEA.png',
+    cytoscape = 'output/figures/cytoscape.png',
+    csv = 'output/evaluation/clustering_100.csv',
+    clusterQuality = 'output/evaluation/clustering_100.png'
 
 rule gsea:
   input:
-    gmt = 'output/temp/human.gmt',
-    rank = 'output/temp/rank.rnk',
+    gmt = 'output/enrichment/gmt/human.gmt',
+    rank = 'output/enrichment/rank.rnk',
     soft = ancient('GSEA_4.3.2/gsea-cli.sh')
   output:
     gsea = directory('output/enrichment/gsea')
@@ -20,13 +22,13 @@ rule gsea:
 
 rule rank:
   output:
-    rank = temp('output/temp/rank.rnk')
+    rank = 'output/enrichment/rank.rnk'
   conda: 'env/pathExplore.yml'
   script: 'R/prepRank.R'
 
 rule gmt:
   output:
-    gmt = temp('output/temp/human.gmt')
+    gmt = 'output/enrichment/gmt/human.gmt'
   params:
     url = 'http://download.baderlab.org/EM_Genesets/January_01_2023/Human/entrezgene/Human_GOBP_AllPathways_no_GO_iea_January_01_2023_entrezgene.gmt'
   shell:
@@ -40,7 +42,7 @@ rule gmt:
 rule cytoscape:
   input:
     gsea = 'output/enrichment/gsea',
-    gmt = 'output/temp/human.gmt',
+    gmt = 'output/enrichment/gmt/human.gmt',
     filter = ancient('cytoscape/filter.json')
   output:
     image = 'output/figures/cytoscape.png'
@@ -61,6 +63,15 @@ rule pathExplore:
   conda: 'env/pathExplore.yml'
   script: 'R/pathExplore.R'
 
+rule pathExploreGSEA:
+  input:
+    gsea = 'output/enrichment/gsea',
+    gmt = 'output/enrichment/gmt/human.gmt'
+  output:
+    pathExplore = 'output/figures/pathExploreGSEA.png'
+  conda: 'env/pathExplore.yml'
+  script: 'R/pathExploreGSEA.R'
+
 rule emapplot:
   input:
     clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
@@ -68,3 +79,21 @@ rule emapplot:
     emapplot = 'output/figures/emapplot.png'
   conda: 'env/pathExplore.yml'
   script: 'R/emapplot.R'
+
+rule evaluateClustering:
+  input:
+    datasets = expand('data/dataset{id}.RDS', id = range(1, 21))
+  output:
+    eval = 'output/evaluation/clustering_{size}.RDS'
+  threads: 5
+  conda: 'env/pathExplore.yml'
+  script: 'R/evaluateClustering.R'
+
+rule generateEvalGraphs:
+  input:
+    eval = 'output/evaluation/clustering_{size}.RDS'
+  output:
+    csv = 'output/evaluation/clustering_{size}.csv',
+    png = 'output/evaluation/clustering_{size}.png'
+  conda: 'env/pathExplore.yml'
+  script: 'R/generateEvalGraphs.R'

@@ -1,8 +1,9 @@
 saveRDS(snakemake, '.pathExplore.R.RDS')
 # snakemake <- readRDS('.pathExplore.R.RDS')
 
-library(pathExplore)
 library(ggplot2)
+devtools::install_github('https://github.com/ievaKer/pathExplore')
+library(pathExplore)
 
 clusterProfiler <- readRDS(snakemake@input$clusterProfiler)
 
