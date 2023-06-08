@@ -9,7 +9,7 @@ library(doParallel)
 library(glue)
 library(devtools)
 
-devtools::install_github('https://github.com/ievaKer/aPEAR')
+devtools::install_gitlab('vugene/aPEAR')
 library(aPEAR)
 
 # Will process different datasets separately
@@ -26,34 +26,37 @@ eval <- foreach(dataset = snakemake@input$datasets, .combine = rbind, .multicomb
     .[ 1:size, ]
 
   foreach(simMethod = similarity, .combine = rbind, .multicombine = TRUE) %do% {
-    # Calculate similarity matrix
-    sim <- pathwaySimilarity(data, geneCol = 'pathwayGenes', method = simMethod)
-
     foreach(clustMethod = clustering, .combine = rbind, .multicombine = TRUE) %do% {
       message(glue("{dataset} {simMethod} {clustMethod} {nrow(data)}"))
 
       # Find clusters in the similarity matrix
       # Markov clustering may fail, in that case return no clusters.
       clusters <- tryCatch({
-        findClusters(sim, method = clustMethod, nameMethod = 'none')
+        set.seed(24985034)
+        findPathClusters(data, similarity = simMethod, cluster = clustMethod)
       }, error = \(e) {
-        list()
+        NULL
       })
 
-      # In the similarity matrix, keep only pathways that have a cluster assigned
-      simClust <- sim[ names(clusters), names(clusters) ]
+      if (!is.null(clusters)) {
+        sim <- clusters$similarity
+        clusters <- clusters$clusters %>% tibble::deframe() %>% as.factor()
 
-      # Calculate cluster scores
-      clusters <- as.integer(clusters)
-      scores <- clusterCrit::intCriteria(simClust, clusters, c('Dunn', 'Silhouette', 'Davies_Bouldin'))
+        # In the similarity matrix, keep only pathways that have a cluster assigned
+        simClust <- sim[ names(clusters), names(clusters) ]
 
-      data.table(Dataset = dataset,
-                 Cluster = clustMethod,
-                 Similarity = simMethod,
-                 Size = size,
-                 Dunn = scores$dunn,
-                 Silhouette = scores$silhouette,
-                 DaviesBouldin = scores$davies_bouldin)
+        # Calculate cluster scores
+        clusters <- as.integer(clusters)
+        scores <- clusterCrit::intCriteria(simClust, clusters, c('Dunn', 'Silhouette', 'Davies_Bouldin'))
+
+        data.table(Dataset = dataset,
+                   Cluster = clustMethod,
+                   Similarity = simMethod,
+                   Size = size,
+                   Dunn = scores$dunn,
+                   Silhouette = scores$silhouette,
+                   DaviesBouldin = scores$davies_bouldin)
+      }
     }
   }
 }

@@ -2,7 +2,7 @@ saveRDS(snakemake, '.aPEAR.R.RDS')
 # snakemake <- readRDS('.aPEAR.R.RDS')
 
 library(ggplot2)
-devtools::install_github('https://github.com/ievaKer/aPEAR')
+devtools::install_gitlab('vugene/aPEAR')
 library(aPEAR)
 
 clusterProfiler <- readRDS(snakemake@input$clusterProfiler)

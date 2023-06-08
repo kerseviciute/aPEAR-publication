@@ -6,7 +6,7 @@ library(data.table)
 library(foreach)
 library(tidyverse)
 library(devtools)
-devtools::install_github('https://github.com/ievaKer/aPEAR')
+devtools::install_gitlab('vugene/aPEAR')
 library(aPEAR)
 
 #
@@ -50,16 +50,14 @@ data <- enrichment %>%
   as.data.frame
 
 set.seed(5348953)
-plot <- aPEAR::enrichmentNetwork(data,
-                                       simMethod = 'jaccard',
-                                       clustMethod = 'markov',
-                                       colorBy = 'NES',
-                                       nodeSize = 'size',
-                                       innerCutoff = 0.2,
-                                       fontSize = 2.5,
-                                       minClusterSize = 15,
-                                       verbose = TRUE,
-                                       drawEllipses = FALSE) +
-  xlim(-20, 20)
+plot <- enrichmentNetwork(data,
+                          similarity = 'jaccard',
+                          cluster = 'markov',
+                          colorBy = 'NES',
+                          nodeSize = 'size',
+                          innerCutoff = 0.1,
+                          minClusterSize = 15,
+                          verbose = TRUE,
+                          drawEllipses = FALSE)
 
 ggsave(plot, filename = snakemake@output$aPEAR, device = 'png', height = 6, width = 7)
