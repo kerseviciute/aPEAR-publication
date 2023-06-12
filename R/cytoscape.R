@@ -41,14 +41,16 @@ deleteSelectedNodes()
 commandsGET('autoannotate annotate-clusterBoosted labelColumn=EnrichmentMap::GS_DESCR')
 commandsGET('autoannotate layout layout=cose_group')
 
-# This takes time, but the API returns immediately. Sleep for 2 mins and hope
+# This takes time, but the API returns immediately. Sleep for 15 sec and hope
 # that the annotation is complete in this time
-Sys.sleep(60 * 2)
+Sys.sleep(15)
 
 nodes <- getAllNodes()
 setNodeLabelBypass(node.names = nodes, new.labels = '')
 
 fitContent()
+
+Sys.sleep(15)
 
 system(glue('mkdir -p {dirname(snakemake@output$image)}'))
 exportImage(filename = file.path(getwd(), snakemake@output$image), type = "PNG")
