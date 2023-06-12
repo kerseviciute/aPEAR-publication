@@ -3,7 +3,7 @@
 #'
 
 saveRDS(snakemake, '.gsea.R.RDS')
-snakemake <- readRDS('.gsea.R.RDS')
+# snakemake <- readRDS('.gsea.R.RDS')
 
 library(glue)
 
@@ -18,7 +18,7 @@ rankFile <- snakemake@input$rank
 
 log <- snakemake@log$log
 
-outputDir <- file.path(tempdir(), 'aPEAR')
+outputDir <- file.path(tempdir(), paste0('aPEAR_', snakemake@wildcards$dataset))
 dir.create(outputDir)
 
 cmd <- glue(

@@ -11,20 +11,14 @@ rule all:
 rule gsea:
   input:
     gmt = 'output/enrichment/gmt/human.gmt',
-    rank = 'output/enrichment/rank.rnk',
+    rank = ancient('data/geneRanks/{dataset}.rnk'),
     soft = ancient('GSEA_4.3.2/gsea-cli.sh')
   output:
-    gsea = directory('output/enrichment/gsea')
+    gsea = directory('output/enrichment/gsea/{dataset}')
   log:
-    log = 'logs/gsea.log'
+    log = 'logs/gsea_{dataset}.log'
   conda: 'env/aPEAR.yml'
   script: 'R/gsea.R'
-
-rule rank:
-  output:
-    rank = 'output/enrichment/rank.rnk'
-  conda: 'env/aPEAR.yml'
-  script: 'R/prepRank.R'
 
 rule gmt:
   output:
