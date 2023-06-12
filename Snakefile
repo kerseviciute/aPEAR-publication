@@ -5,8 +5,8 @@ rule all:
   input:
     emapplot = 'output/figures/emapplot.png',
     aPEAR = 'output/figures/aPEAR.png',
-    aPEARGSEA = 'output/figures/aPEARGSEA.png',
-    cytoscape = 'output/figures/cytoscape.png',
+    aPEAR_GSEA = expand('output/figures/aPEAR_GSEA_{dataset}.png', dataset = ['dataset1', 'dataset2', 'dataset3']),
+    cytoscape = expand('output/figures/cytoscape_{dataset}.png', dataset = ['dataset1', 'dataset2', 'dataset3']),
     csv = 'output/evaluation/clustering_100.csv',
     clusterQuality = 'output/evaluation/clustering_100.png'
 
@@ -34,15 +34,17 @@ rule gmt:
 
 #
 # IMPORTANT: Cytoscape must be running to execute this rule!
+#            Cannot be executed parallely for different wildcards.
 #
 rule cytoscape:
   input:
-    gsea = 'output/enrichment/gsea',
+    gsea = 'output/enrichment/gsea/{dataset}',
     gmt = 'output/enrichment/gmt/human.gmt',
-    filter = ancient('cytoscape/filter.json')
+    filter = ancient('cytoscape/filter_{dataset}.json')
   output:
-    image = 'output/figures/cytoscape.png'
+    image = 'output/figures/cytoscape_{dataset}.png'
   conda: 'env/aPEAR.yml'
+  threads: 4
   script: 'R/cytoscape.R'
 
 rule clusterProfiler:
