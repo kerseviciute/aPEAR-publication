@@ -1,0 +1,14 @@
+dataset1:
+  fdr: 0.01
+  minClusterSize: 10
+  drawEllipses: false
+
+dataset2:
+  fdr: 0.05
+  minClusterSize: 3
+  drawEllipses: true
+
+dataset3:
+  fdr: 0.05
+  minClusterSize: 8
+  drawEllipses: true

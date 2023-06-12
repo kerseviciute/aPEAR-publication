@@ -9,6 +9,8 @@ library(devtools)
 devtools::install_gitlab('vugene/aPEAR')
 library(aPEAR)
 
+config <- snakemake@config[[ snakemake@wildcards$dataset ]]
+
 #
 # Parse GMT file
 #
@@ -46,7 +48,7 @@ enrichment <- foreach(file = files, .combine = rbind) %do% {
 data <- enrichment %>%
   merge(gmt, by = 'ID') %>%
   .[ Description != 'untitled' ] %>%
-  .[ FDR < 0.01 ] %>%
+  .[ FDR < config$fdr ] %>%
   as.data.frame
 
 set.seed(5348953)
@@ -55,9 +57,8 @@ plot <- enrichmentNetwork(data,
                           cluster = 'markov',
                           colorBy = 'NES',
                           nodeSize = 'size',
-                          innerCutoff = 0.1,
-                          minClusterSize = 15,
+                          minClusterSize = config$minClusterSize,
                           verbose = TRUE,
-                          drawEllipses = FALSE)
+                          drawEllipses = config$drawEllipses)
 
 ggsave(plot, filename = snakemake@output$aPEAR, device = 'png', height = 6, width = 7)

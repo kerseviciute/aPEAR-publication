@@ -1,4 +1,6 @@
 
+configfile: 'config.yml'
+
 rule all:
   input:
     emapplot = 'output/figures/emapplot.png',
@@ -59,10 +61,10 @@ rule aPEAR:
 
 rule aPEAR_GSEA:
   input:
-    gsea = 'output/enrichment/gsea',
+    gsea = 'output/enrichment/gsea/{dataset}',
     gmt = 'output/enrichment/gmt/human.gmt'
   output:
-    aPEAR = 'output/figures/aPEARGSEA.png'
+    aPEAR = 'output/figures/aPEAR_GSEA_{dataset}.png'
   conda: 'env/aPEAR.yml'
   script: 'R/aPEAR_GSEA.R'
 
