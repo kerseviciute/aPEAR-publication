@@ -5,6 +5,7 @@ rule all:
   input:
     emapplot = 'output/figures/emapplot.png',
     aPEAR = 'output/figures/aPEAR.png',
+    aPEAR_tiff = 'output/figures/aPEAR.tiff',
     aPEAR_GSEA = expand('output/figures/aPEAR_GSEA_{dataset}.png', dataset = ['dataset1', 'dataset2', 'dataset3']),
     cytoscape = expand('output/figures/cytoscape_{dataset}.png', dataset = ['dataset1', 'dataset2', 'dataset3']),
     csv = 'output/evaluation/clustering_100.csv',
@@ -57,7 +58,8 @@ rule aPEAR:
   input:
     clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
   output:
-    aPEAR = 'output/figures/aPEAR.png'
+    aPEAR = 'output/figures/aPEAR.png',
+    tiff = 'output/figures/aPEAR.tiff'
   conda: 'env/aPEAR.yml'
   script: 'R/aPEAR.R'
 
