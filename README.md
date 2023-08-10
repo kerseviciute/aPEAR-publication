@@ -18,6 +18,13 @@ In order to perform all analyses, run
 snakemake --cores 1 --use-conda --conda-frontend mamba
 ```
 
+## Comparison with Cytoscape
+
+Comparison for Cytoscape is performed for 3 different datasets (code not provided).
+The gene ranks are saved in the `data/geneRanks` directory. For each analysis,
+minimal adjustments are made for the aPEAR as well as Cytoscape plots (described in
+config file for aPEAR and `cytoscape` directory for Cytoscape).
+
 ## Quality and performance assessment
 
 We have obtained 20 datasets containing various gene set enrichment results from previous analyses

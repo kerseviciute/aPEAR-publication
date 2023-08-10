@@ -1,30 +1,27 @@
 
+configfile: 'config.yml'
+
 rule all:
   input:
     emapplot = 'output/figures/emapplot.png',
     aPEAR = 'output/figures/aPEAR.png',
-    aPEARGSEA = 'output/figures/aPEARGSEA.png',
-    cytoscape = 'output/figures/cytoscape.png',
+    aPEAR_tiff = 'output/figures/aPEAR.tiff',
+    aPEAR_GSEA = expand('output/figures/aPEAR_GSEA_{dataset}.png', dataset = ['dataset1', 'dataset2', 'dataset3']),
+    cytoscape = expand('output/figures/cytoscape_{dataset}.png', dataset = ['dataset1', 'dataset2', 'dataset3']),
     csv = 'output/evaluation/clustering_100.csv',
     clusterQuality = 'output/evaluation/clustering_100.png'
 
 rule gsea:
   input:
     gmt = 'output/enrichment/gmt/human.gmt',
-    rank = 'output/enrichment/rank.rnk',
+    rank = ancient('data/geneRanks/{dataset}.rnk'),
     soft = ancient('GSEA_4.3.2/gsea-cli.sh')
   output:
-    gsea = directory('output/enrichment/gsea')
+    gsea = directory('output/enrichment/gsea/{dataset}')
   log:
-    log = 'logs/gsea.log'
+    log = 'logs/gsea_{dataset}.log'
   conda: 'env/aPEAR.yml'
   script: 'R/gsea.R'
-
-rule rank:
-  output:
-    rank = 'output/enrichment/rank.rnk'
-  conda: 'env/aPEAR.yml'
-  script: 'R/prepRank.R'
 
 rule gmt:
   output:
@@ -38,15 +35,17 @@ rule gmt:
 
 #
 # IMPORTANT: Cytoscape must be running to execute this rule!
+#            Cannot be executed parallely for different wildcards.
 #
 rule cytoscape:
   input:
-    gsea = 'output/enrichment/gsea',
+    gsea = 'output/enrichment/gsea/{dataset}',
     gmt = 'output/enrichment/gmt/human.gmt',
-    filter = ancient('cytoscape/filter.json')
+    filter = ancient('cytoscape/filter_{dataset}.json')
   output:
-    image = 'output/figures/cytoscape.png'
+    image = 'output/figures/cytoscape_{dataset}.png'
   conda: 'env/aPEAR.yml'
+  threads: 4
   script: 'R/cytoscape.R'
 
 rule clusterProfiler:
@@ -59,16 +58,17 @@ rule aPEAR:
   input:
     clusterProfiler = 'output/enrichment/clusterProfiler.RDS'
   output:
-    aPEAR = 'output/figures/aPEAR.png'
+    aPEAR = 'output/figures/aPEAR.png',
+    tiff = 'output/figures/aPEAR.tiff'
   conda: 'env/aPEAR.yml'
   script: 'R/aPEAR.R'
 
 rule aPEAR_GSEA:
   input:
-    gsea = 'output/enrichment/gsea',
+    gsea = 'output/enrichment/gsea/{dataset}',
     gmt = 'output/enrichment/gmt/human.gmt'
   output:
-    aPEAR = 'output/figures/aPEARGSEA.png'
+    aPEAR = 'output/figures/aPEAR_GSEA_{dataset}.png'
   conda: 'env/aPEAR.yml'
   script: 'R/aPEAR_GSEA.R'
 

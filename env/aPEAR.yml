@@ -1,4 +1,4 @@
-name: aPEAR
+name: aPEAR-public
 channels:
   - conda-forge
   - bioconda
