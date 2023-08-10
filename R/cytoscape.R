@@ -21,7 +21,8 @@ glue(
    rootFolder={rootFolder} \\
    coefficients=COMBINED \\
    qvalue=0.05 \\
-   similaritycutoff=0.85 \\
+   coefficients=JACCARD \\
+   similaritycutoff=0.5 \\
    filterByExpressions=FALSE \\
    commonGMTFile={gmtFile}'
 ) %>% commandsGET
