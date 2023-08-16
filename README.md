@@ -25,6 +25,10 @@ The gene ranks are saved in the `data/geneRanks` directory. For each analysis,
 minimal adjustments are made for the aPEAR as well as Cytoscape plots (described in
 config file for aPEAR and `cytoscape` directory for Cytoscape).
 
+- `data/geneRanks/dataset1.rnk`: gene ranks from R package DOSE.
+- `data/geneRanks/dataset2.rnk`: gene ranks from an internal analysis of single cell RNAseq data from people with Parkinson's disease and healthy controls (substantia nigra tissue).
+- `data/geneRanks/dataset3.rnk`: gene ranks from an internal analysis of single cell RNAseq data from people with Parkinson's disease and healthy controls (hippocampal tissue).
+
 ## Quality and performance assessment
 
 We have obtained 20 datasets containing various gene set enrichment results from previous analyses
